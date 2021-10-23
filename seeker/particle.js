@@ -3,10 +3,14 @@ class Vehicle {
         this.pos = createVector(x, y); 
         this.vel = createVector(0, 0); 
         this.acc = createVector(0, 0); 
+        this.maxSpeed = 4; 
         this.r = 16; 
     }
     seek(target){
-
+        let desired = p5.Vector.sub(target, this.pos); 
+        desired.setMag(this.maxSpeed)
+        let steering = p5.Vector.sub(desired, this.vel); 
+        this.applyForce(steering); 
     }
     applyForce(force){
         this.acc.add(force); 

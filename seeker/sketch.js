@@ -13,6 +13,7 @@ function draw() {
 	 noStroke(); 
 	target = createVector(mouseX, mouseY); 
 	circle(target.x, target.y, 32)
+	vehicle.seek(target)
 	vehicle.update(); 
-	vehicle.show(); 
+	vehicle.show();  
 }
