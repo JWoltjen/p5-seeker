@@ -28,6 +28,7 @@ class Vehicle {
         fill(255); 
         push();
         translate(this.pos.x, this.pos.y); 
+        rotate(this.vel.heading());
         triangle(-this.r, -this.r/2, -this.r, this.r/2, this.r/2, 0); 
         pop();
     }
