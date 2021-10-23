@@ -3,10 +3,16 @@ class Vehicle {
         this.pos = createVector(x, y); 
         this.vel = createVector(0, 0); 
         this.acc = createVector(0, 0); 
-        this.r = 4; 
+        this.maxSpeed = 4;
+        this.maxForce = 0.01; 
+        this.r = 16; 
     }
     seek(target){
-
+        let desired = p5.Vector.sub(target, this.pos); 
+        desired.setMag(this.maxSpeed)
+        let steering = p5.Vector.sub(desired, this.vel); 
+        steering.limit(this.maxForce)
+        this.applyForce(steering); 
     }
     applyForce(force){
         this.acc.add(force); 
@@ -24,7 +30,8 @@ class Vehicle {
         fill(255); 
         push();
         translate(this.pos.x, this.pos.y); 
-        triangle(-this.r, -this.r/2, -this.r, this.r/2, this.r/2, this.r/2); 
+        rotate(this.vel.heading());
+        triangle(-this.r, -this.r/2, -this.r, this.r/2, this.r/2, 0); 
         pop();
     }
 }
