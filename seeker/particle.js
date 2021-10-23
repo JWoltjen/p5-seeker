@@ -3,7 +3,7 @@ class Vehicle {
         this.pos = createVector(x, y); 
         this.vel = createVector(0, 0); 
         this.acc = createVector(0, 0); 
-        this.r = 4; 
+        this.r = 16; 
     }
     seek(target){
 
@@ -24,7 +24,7 @@ class Vehicle {
         fill(255); 
         push();
         translate(this.pos.x, this.pos.y); 
-        triangle(-this.r, -this.r/2, -this.r, this.r/2, this.r/2, this.r/2); 
+        triangle(-this.r, -this.r/2, -this.r, this.r/2, this.r/2, 0); 
         pop();
     }
 }
