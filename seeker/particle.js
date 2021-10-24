@@ -7,12 +7,17 @@ class Vehicle {
         this.maxForce = 0.01; 
         this.r = 16; 
     }
+
+    flee(target){
+        return this.seek(target).mult(-1)
+    }
+
     seek(target){
-        let desired = p5.Vector.sub(target, this.pos); 
-        desired.setMag(this.maxSpeed)
-        let steering = p5.Vector.sub(desired, this.vel); 
-        steering.limit(this.maxForce)
-        this.applyForce(steering); 
+        let force = p5.Vector.sub(target, this.pos); 
+        force.setMag(this.maxSpeed)
+        force.sub(this.vel)
+        force.limit(this.maxForce); 
+        return force
     }
     applyForce(force){
         this.acc.add(force); 
