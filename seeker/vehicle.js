@@ -9,6 +9,12 @@ class Vehicle {
         this.r = 16; 
     }
 
+    evade(vehicle){
+        let pursuit = this.pursue(vehicle)
+        pursuit.mult(-1); 
+        return pursuit
+    }
+
     pursue(vehicle){
         let target = vehicle.pos.copy(); 
         let velocity = vehicle.vel.copy(); 
@@ -48,6 +54,19 @@ class Vehicle {
         rotate(this.vel.heading());
         triangle(-this.r, -this.r/2, -this.r, this.r/2, this.r/2, 0); 
         pop();
+    }
+
+    edges() {
+        if(this.pos.x > width + this.r) {
+            this.pos.x = -this.r; 
+        } else if (this.pos.x < -this.r) {
+            this.pos.x = width + this.r; 
+        }
+        if(this.pos.y > height + this.r){
+            this.pos.y = -this.r; 
+        } else if( this.pos.y < -this.r){
+            this.pos.y = height + this.r; 
+        }
     }
 }
 
