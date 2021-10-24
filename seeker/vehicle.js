@@ -1,3 +1,4 @@
+
 class Vehicle {
     constructor(x, y) {
         this.pos = createVector(x, y); 
@@ -39,4 +40,21 @@ class Vehicle {
         triangle(-this.r, -this.r/2, -this.r, this.r/2, this.r/2, 0); 
         pop();
     }
+}
+
+class Target extends Vehicle {
+    constructor(x, y) {
+        super(x, y); 
+    }
+    show(){
+        stroke(255)
+        strokeWeight(2);
+        fill(255); 
+        push()
+        translate(this.pos.x, this.pos.y)
+        
+        circle(0,0, this.r*2)
+        pop(); 
+    }
+
 }

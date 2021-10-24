@@ -5,7 +5,7 @@ let target;
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	pursuer = new Vehicle(100, 100)
-	target = new Vehicle(200, 100)
+	target = new Target(200, 100)
 }
 
 function draw() {
