@@ -13,7 +13,10 @@ function draw() {
 	 noStroke(); 
 	target = createVector(mouseX, mouseY); 
 	circle(target.x, target.y, 32)
-	vehicle.seek(target)
+
+	let steering = vehicle.flee(target)
+	vehicle.applyForce(steering); 
+
 	vehicle.update(); 
 	vehicle.show();  
 }
