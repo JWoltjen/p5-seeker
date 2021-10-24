@@ -4,8 +4,8 @@ class Vehicle {
         this.pos = createVector(x, y); 
         this.vel = createVector(0, 0); 
         this.acc = createVector(0, 0); 
-        this.maxSpeed = 4;
-        this.maxForce = 0.1; 
+        this.maxSpeed = 8;
+        this.maxForce = 0.25; 
         this.r = 16; 
     }
 
