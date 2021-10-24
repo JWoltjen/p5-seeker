@@ -9,6 +9,15 @@ class Vehicle {
         this.r = 16; 
     }
 
+    pursue(vehicle){
+        let target = vehicle.pos.copy(); 
+        let velocity = vehicle.vel.copy(); 
+        velocity.mult(10); 
+        target.add(velocity)
+        target.add(vehicle.vel); 
+        return this.seek(target);  
+    }
+
     flee(target){
         return this.seek(target).mult(-1)
     }
@@ -45,6 +54,7 @@ class Vehicle {
 class Target extends Vehicle {
     constructor(x, y) {
         super(x, y); 
+        this.vel = createVector(5, 2)
     }
     show(){
         stroke(255)

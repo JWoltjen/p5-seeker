@@ -12,11 +12,12 @@ function draw() {
 	background(0);
 
 
-	let steering = pursuer.seek(target.pos)
+	let steering = pursuer.pursue(target)
 	pursuer.applyForce(steering); 
 
 	pursuer.update(); 
 	pursuer.show();  
+	
 	target.update(); 
 	target.show(); 
 }
