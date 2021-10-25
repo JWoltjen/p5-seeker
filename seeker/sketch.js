@@ -12,7 +12,7 @@ function draw() {
 	background(0);
 
 
-	let steering = pursuer.pursue(target)
+	let steering = pursuer.arrive(target)
 	pursuer.applyForce(steering);
 	
 	let d = p5.Vector.dist(pursuer.pos, target.pos)
@@ -20,11 +20,9 @@ function draw() {
 		target = new Target(random(width), random(height))
 	}
 
-	pursuer.edges(); 
 	pursuer.update(); 
 	pursuer.show(); 
-	
-	target.edges();  
+	 
 	target.update(); 
 	target.show(); 
 }

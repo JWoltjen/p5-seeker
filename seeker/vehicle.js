@@ -15,15 +15,19 @@ class Vehicle {
         return pursuit
     }
 
-    arrive(vehicle){
-
+    arrive(target){
+        let force = p5.Vector.sub(target, this.pos); 
+        force.setMag(this.maxSpeed)
+        force.sub(this.vel)
+        force.limit(this.maxForce); 
+        return force
     }
 
     pursue(vehicle){
         let target = vehicle.pos.copy(); 
-        let velocity = vehicle.vel.copy(); 
-        velocity.mult(10)
-        target.add(velocity)
+        let prediction = vehicle.vel.copy(); 
+        prediction.mult(10)
+        target.add(prediction)
         target.add(vehicle.vel)
         
         return this.seek(target);   
@@ -46,6 +50,7 @@ class Vehicle {
 
     update() {
         this.vel.add(this.acc); 
+        this.vel.limit(this.maxSpeed)
         this.pos.add(this.vel); 
         this.acc.set(0,0)
     }
