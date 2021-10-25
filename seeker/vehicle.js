@@ -15,13 +15,18 @@ class Vehicle {
         return pursuit
     }
 
+    arrive(vehicle){
+
+    }
+
     pursue(vehicle){
         let target = vehicle.pos.copy(); 
         let velocity = vehicle.vel.copy(); 
-        velocity.mult(10); 
+        velocity.mult(10)
         target.add(velocity)
-        target.add(vehicle.vel); 
-        return this.seek(target);  
+        target.add(vehicle.vel)
+        
+        return this.seek(target);   
     }
 
     flee(target){
@@ -73,7 +78,8 @@ class Vehicle {
 class Target extends Vehicle {
     constructor(x, y) {
         super(x, y); 
-        this.vel = createVector(5, 2)
+        this.vel = p5.Vector.random2D(); 
+        this.vel.mult(5)
     }
     show(){
         stroke(255)
@@ -81,7 +87,6 @@ class Target extends Vehicle {
         fill(255); 
         push()
         translate(this.pos.x, this.pos.y)
-        
         circle(0,0, this.r*2)
         pop(); 
     }

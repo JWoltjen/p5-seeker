@@ -23,6 +23,7 @@ function draw() {
 	pursuer.edges(); 
 	pursuer.update(); 
 	pursuer.show(); 
+	
 	target.edges();  
 	target.update(); 
 	target.show(); 
