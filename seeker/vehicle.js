@@ -4,11 +4,12 @@ class Vehicle {
         this.pos = createVector(x, y); 
         this.vel = createVector(1, 0); 
         this.acc = createVector(0, 0); 
-        this.maxSpeed = 2;
-        this.maxForce = 0.1; 
+        this.maxSpeed = 4;
+        this.maxForce = 0.15; 
         this.r = 16;
         
         this.wanderTheta = PI/2
+        this.path = []
     }
 
     evade(vehicle){
@@ -26,22 +27,27 @@ class Vehicle {
         let direction = this.vel.copy(); 
         direction.setMag(100);
         direction.add(this.pos); 
+        fill(255, 0, 0); 
+        circle(direction.x, direction.y, 8) 
 
         let dirRadius = 50; 
+        circle(direction.x, direction.y, dirRadius *2); 
 
         let theta = this.wanderTheta + this.vel.heading();
         
         let x = dirRadius *cos(theta); 
         let y = dirRadius *sin(theta)
-      
+        fill(0, 255, 0); 
+        noStroke(); 
         direction.add(x, y)
-        
+        circle(direction.x, direction.y, 16)
 
         let steer = direction.sub(this.pos)
         steer.setMag(this.maxForce)
         this.applyForce(steer)
 
-        this.wanderTheta += random(-0.1, 0.1)
+        let displacementRange = 0.3
+        this.wanderTheta += random(-displacementRange, displacementRange)
     }
 
     arrive(target){
@@ -90,6 +96,8 @@ class Vehicle {
         this.vel.limit(this.maxSpeed)
         this.pos.add(this.vel); 
         this.acc.set(0,0)
+
+        this.path.push(this.pos.copy())
     }
 
     show(){
@@ -101,6 +109,13 @@ class Vehicle {
         rotate(this.vel.heading());
         triangle(-this.r, -this.r/2, -this.r, this.r/2, this.r/2, 0); 
         pop();
+
+        beginShape(); 
+        noFill()
+        for(let v of this.path){
+            vertex(v.x, v.y); 
+        }
+        endShape(); 
     }
 
     edges() {
