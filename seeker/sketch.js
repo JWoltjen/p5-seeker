@@ -13,7 +13,7 @@ function draw() {
 	target = createVector(mouseX, mouseY)
 	circle(target.x, target.y, 32)
 
-	let steering = vehicle.arrive(target)
+	let steering = vehicle.wander(); 
 	vehicle.applyForce(steering);
 	
 

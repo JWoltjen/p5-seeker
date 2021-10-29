@@ -4,9 +4,11 @@ class Vehicle {
         this.pos = createVector(x, y); 
         this.vel = createVector(1, 0); 
         this.acc = createVector(0, 0); 
-        this.maxSpeed = 8;
-        this.maxForce = 0.25; 
-        this.r = 16; 
+        this.maxSpeed = 2;
+        this.maxForce = 0.1; 
+        this.r = 16;
+        
+        this.wanderTheta = PI/2
     }
 
     evade(vehicle){
@@ -15,28 +17,40 @@ class Vehicle {
         return pursuit
     }
 
+    randomWander() {
+        let force = p5.Vector.random2D(); 
+        this.applyForce(force)
+    }
+ 
     wander(){
-        let dir = this.vel.copy(); 
-        dir.setMag(100);
-        dir.add(this.pos); 
-        fill(255, 0, 0); 
-        circle(dir.x, dir.y, 8) 
+        let direction = this.vel.copy(); 
+        direction.setMag(100);
+        direction.add(this.pos); 
 
         let dirRadius = 50; 
-        circle(dir.x, dir.y, dirRadius *2); 
 
-        let theta = 0; 
+        let theta = this.wanderTheta + this.vel.heading();
+        
         let x = dirRadius *cos(theta); 
         let y = dirRadius *sin(theta)
+      
+        direction.add(x, y)
+        
+
+        let steer = direction.sub(this.pos)
+        steer.setMag(this.maxForce)
+        this.applyForce(steer)
+
+        this.wanderTheta += random(-0.1, 0.1)
     }
 
     arrive(target){
         let force = p5.Vector.sub(target, this.pos); 
-       let r = 100; 
+       let slowRadius = 100; 
        let d = force.mag(); 
-       if (d < r) {
-           let m = map(d, 0, r, 0, this.maxSpeed)
-           force.setMag(m)
+       if (d < slowRadius) {
+           let desiredSpeed = map(d, 0, slowRadius, 0, this.maxSpeed)
+           force.setMag(desiredSpeed)
        } else {
            force.setMag(this.maxSpeed)
        }
