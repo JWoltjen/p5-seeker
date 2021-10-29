@@ -2,7 +2,7 @@
 class Vehicle {
     constructor(x, y) {
         this.pos = createVector(x, y); 
-        this.vel = createVector(0, 0); 
+        this.vel = createVector(1, 0); 
         this.acc = createVector(0, 0); 
         this.maxSpeed = 8;
         this.maxForce = 0.25; 
@@ -15,12 +15,34 @@ class Vehicle {
         return pursuit
     }
 
+    wander(){
+        let dir = this.vel.copy(); 
+        dir.setMag(100);
+        dir.add(this.pos); 
+        fill(255, 0, 0); 
+        circle(dir.x, dir.y, 8) 
+
+        let dirRadius = 50; 
+        circle(dir.x, dir.y, dirRadius *2); 
+
+        let theta = 0; 
+        let x = dirRadius *cos(theta); 
+        let y = dirRadius *sin(theta)
+    }
+
     arrive(target){
         let force = p5.Vector.sub(target, this.pos); 
-        force.setMag(this.maxSpeed)
-        force.sub(this.vel)
-        force.limit(this.maxForce); 
-        return force
+       let r = 100; 
+       let d = force.mag(); 
+       if (d < r) {
+           let m = map(d, 0, r, 0, this.maxSpeed)
+           force.setMag(m)
+       } else {
+           force.setMag(this.maxSpeed)
+       }
+       force.sub(this.vel)
+       force.limit(this.maxForce)
+       return force
     }
 
     pursue(vehicle){
@@ -28,7 +50,8 @@ class Vehicle {
         let prediction = vehicle.vel.copy(); 
         prediction.mult(10)
         target.add(prediction)
-        target.add(vehicle.vel)
+        fill(0, 255, 0)
+        circle(target.x, target.y, 16)
         
         return this.seek(target);   
     }
@@ -38,11 +61,11 @@ class Vehicle {
     }
 
     seek(target){
-        let force = p5.Vector.sub(target, this.pos); 
-        force.setMag(this.maxSpeed)
-        force.sub(this.vel)
-        force.limit(this.maxForce); 
-        return force
+       let desired = p5.Vector.sub(target, this.pos); 
+       desired.setMag(this.maxSpeed)
+       let steer = p5.Vector.sub(desired, this.vel)
+       steer.limit(this.maxForce)
+       this.applyForce(steer)
     }
     applyForce(force){
         this.acc.add(force); 
@@ -82,7 +105,7 @@ class Vehicle {
 
 class Target extends Vehicle {
     constructor(x, y) {
-        super(x, y); 
+        super(x, y);
         this.vel = p5.Vector.random2D(); 
         this.vel.mult(5)
     }

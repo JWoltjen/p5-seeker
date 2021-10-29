@@ -1,28 +1,25 @@
 
-let pursuer; 
+let vehicle; 
 let target; 
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
-	pursuer = new Vehicle(100, 100)
+	vehicle = new Vehicle(100, 100)
 	target = new Target(200, 100)
 }
 
 function draw() {
 	background(0);
+	target = createVector(mouseX, mouseY)
+	circle(target.x, target.y, 32)
 
-
-	let steering = pursuer.arrive(target)
-	pursuer.applyForce(steering);
+	let steering = vehicle.arrive(target)
+	vehicle.applyForce(steering);
 	
-	let d = p5.Vector.dist(pursuer.pos, target.pos)
-	if (d < pursuer.r + target.r){
-		target = new Target(random(width), random(height))
-	}
 
-	pursuer.update(); 
-	pursuer.show(); 
-	 
-	target.update(); 
-	target.show(); 
+	
+	vehicle.update(); 
+	vehicle.show(); 
+	vehicle.edges()
+
 }
