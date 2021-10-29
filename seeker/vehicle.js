@@ -8,8 +8,10 @@ class Vehicle {
         this.maxForce = 0.15; 
         this.r = 16;
         
-        this.wanderTheta = PI/2
-        this.path = []
+        this.wanderTheta = PI/2;
+      
+        this.currentPath = []; 
+        this.paths = [this.currentPath];
     }
 
     evade(vehicle){
@@ -97,7 +99,7 @@ class Vehicle {
         this.pos.add(this.vel); 
         this.acc.set(0,0)
 
-        this.path.push(this.pos.copy())
+        this.currentPath.push(this.pos.copy())
     }
 
     show(){
@@ -110,24 +112,35 @@ class Vehicle {
         triangle(-this.r, -this.r/2, -this.r, this.r/2, this.r/2, 0); 
         pop();
 
-        beginShape(); 
-        noFill()
-        for(let v of this.path){
-            vertex(v.x, v.y); 
+        for (let path of this.paths){
+            beginShape(); 
+            noFill()
+            for(let v of path){
+                vertex(v.x, v.y); 
+            }
+            endShape(); 
+            }
         }
-        endShape(); 
-    }
 
     edges() {
+        let hitEdge = false
         if(this.pos.x > width + this.r) {
             this.pos.x = -this.r; 
+            hitEdge = true; 
         } else if (this.pos.x < -this.r) {
             this.pos.x = width + this.r; 
+            hitEdge = true; 
         }
         if(this.pos.y > height + this.r){
             this.pos.y = -this.r; 
+            hitEdge = true; 
         } else if( this.pos.y < -this.r){
             this.pos.y = height + this.r; 
+            hitEdge = true; 
+        }
+        if(hitEdge){
+            this.currentPath = []; 
+            this.paths.push(this.currentPath)
         }
     }
 }
